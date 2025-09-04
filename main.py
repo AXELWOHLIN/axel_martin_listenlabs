@@ -4,7 +4,9 @@ Main entry point for the admission control system.
 """
 import argparse
 import uuid
-from runner import run_game
+from runner_1 import run_game_scenario_1
+from runner_2 import run_game_scenario_2
+from runner_3 import run_game_scenario_3
 
 def main():
     parser = argparse.ArgumentParser(description="Run the admission control game")
@@ -26,13 +28,33 @@ def main():
     print("-" * 50)
     
     try:
-        result = run_game(
-            base_url=args.base_url,
-            scenario=args.scenario,
-            player_id=args.player_id,
-            seed=args.seed,
-            samples=args.samples
-        )
+        # Choose the appropriate runner based on scenario
+        if args.scenario == 1:
+            result = run_game_scenario_1(
+                base_url=args.base_url,
+                scenario=args.scenario,
+                player_id=args.player_id,
+                seed=args.seed,
+                samples=args.samples
+            )
+        elif args.scenario == 2:
+            result = run_game_scenario_2(
+                base_url=args.base_url,
+                scenario=args.scenario,
+                player_id=args.player_id,
+                seed=args.seed,
+                samples=args.samples
+            )
+        elif args.scenario == 3:
+            result = run_game_scenario_3(
+                base_url=args.base_url,
+                scenario=args.scenario,
+                player_id=args.player_id,
+                seed=args.seed,
+                samples=args.samples
+            )
+        else:
+            raise ValueError(f"Unknown scenario: {args.scenario}")
         
         print("Game completed!")
         print(f"Status: {result['status']}")
