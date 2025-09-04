@@ -23,8 +23,9 @@ def solve_acceptance_lp(types: np.ndarray, weights: np.ndarray, r_targets: np.nd
     c = -weights.copy()  # minimize -p => maximize p
     # A_ub x <= b_ub  -> we have A * alpha >= 0 => -A * alpha <= 0
     A = np.zeros((K, U))
+    slack = 0.9 # Maybe tighten as we approach the end? Greedy in the beginning, hard in the end?
     for k in range(K):
-        A[k, :] = -weights * (types[:, k] - r_targets[k])
+        A[k, :] = -weights * (types[:, k] - slack * r_targets[k])
     b = np.zeros(K)
 
     bounds = [(0.0, 1.0)] * U
